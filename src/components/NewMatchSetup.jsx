@@ -35,7 +35,6 @@ export default function NewMatchSetup({ onCancel, onConfirm }) {
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="例：山田さん"
             className="w-full rounded-xl px-4 py-3 focus:outline-none focus:ring-2"
             style={{
               background: theme.inputBg,

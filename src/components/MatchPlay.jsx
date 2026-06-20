@@ -58,6 +58,7 @@ export default function MatchPlay({ opponentName, opponentNoTitle, firstServer, 
   const [history, setHistory] = useState([]) // undo stack of previous setState snapshots
   const [subview, setSubview] = useState('play') // play | setEnd | chooseServer | matchEnd
   const [matchResult, setMatchResult] = useState(null)
+  const [showCancelConfirm, setShowCancelConfirm] = useState(false)
 
   const setWins = {
     me: completedSets.filter((s) => s.winner === 'me').length,
@@ -286,7 +287,7 @@ export default function MatchPlay({ opponentName, opponentNoTitle, firstServer, 
   return (
     <div className="space-y-5 animate-[fadeIn_0.3s_ease-out]">
       <header className="flex items-center justify-between">
-        <button onClick={onCancel} className="text-sm" style={{ color: theme.bgTextMuted }}>
+        <button onClick={() => setShowCancelConfirm(true)} className="text-sm" style={{ color: theme.bgTextMuted }}>
           ✕ 中断
         </button>
         <h1 className="text-base font-bold tracking-wide" style={{ fontFamily: theme.fontDisplay, color: theme.bgText }}>
@@ -380,6 +381,38 @@ export default function MatchPlay({ opponentName, opponentNoTitle, firstServer, 
           </button>
         </div>
       </section>
+
+      {showCancelConfirm && (
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center px-6 z-50">
+          <div
+            className="rounded-2xl p-6 w-full max-w-sm space-y-4"
+            style={{ background: theme.surface, border: `1px solid ${theme.surfaceBorder}`, color: theme.surfaceText }}
+          >
+            <h2 className="font-bold" style={{ fontFamily: theme.fontDisplay }}>
+              試合を中断しますか？
+            </h2>
+            <p className="text-sm" style={{ color: theme.surfaceTextMuted }}>
+              本当に中断しますか？現在の試合内容は保存されません。
+            </p>
+            <div className="flex gap-2">
+              <button
+                onClick={() => setShowCancelConfirm(false)}
+                className="flex-1 py-3 rounded-xl font-semibold"
+                style={{ background: theme.inputBg, color: theme.surfaceTextMuted }}
+              >
+                続ける
+              </button>
+              <button
+                onClick={onCancel}
+                className="flex-1 py-3 rounded-xl font-semibold"
+                style={{ background: theme.negative, color: '#ffffff' }}
+              >
+                中断する
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
