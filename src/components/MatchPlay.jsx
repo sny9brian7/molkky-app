@@ -6,6 +6,7 @@ import {
   decideNextStartingTurn,
 } from '../utils/molkky.js'
 import RoundTable from './RoundTable.jsx'
+import SetEndCelebration from './SetEndCelebration.jsx'
 import { useTheme } from '../theme/ThemeContext.jsx'
 
 const NUMBERS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
@@ -51,7 +52,7 @@ function SetDots({ count }) {
 }
 
 export default function MatchPlay({ opponentName, opponentNoTitle, firstServer, onFinish, onCancel }) {
-  const { theme } = useTheme()
+  const { theme, effectsEnabled } = useTheme()
   const [completedSets, setCompletedSets] = useState([]) // [{ winner, throws, finalScores, startingTurn }]
   const [setState, setSetState] = useState(createEmptySetState(firstServer))
   const [startingTurn, setStartingTurn] = useState(firstServer)
@@ -185,6 +186,9 @@ export default function MatchPlay({ opponentName, opponentNoTitle, firstServer, 
     const winnerColor = setState.winner === 'me' ? theme.accentMe : theme.accentOpponent
     return (
       <div className="space-y-5 animate-[fadeIn_0.3s_ease-out]">
+        {effectsEnabled && (
+          <SetEndCelebration colors={[theme.accentMe, theme.accentOpponent, theme.positive, GOLD]} />
+        )}
         <header className="text-center space-y-1">
           <p className="text-xs font-bold tracking-widest" style={{ color: winnerColor }}>
             第{currentSetNumber}セット終了

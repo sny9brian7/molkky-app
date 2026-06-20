@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useTheme } from '../theme/ThemeContext.jsx'
 
 export default function ThemeSwitcher() {
-  const { theme, themeId, setThemeId, themes } = useTheme()
+  const { theme, themeId, setThemeId, themes, effectsEnabled, setEffectsEnabled } = useTheme()
   const [open, setOpen] = useState(false)
 
   return (
@@ -67,6 +67,29 @@ export default function ThemeSwitcher() {
                 </button>
               ))}
             </div>
+
+            <button
+              onClick={() => setEffectsEnabled(!effectsEnabled)}
+              className="w-full text-left rounded-xl px-4 py-3 flex items-center justify-between gap-3"
+              style={{ background: 'transparent', border: `1px solid ${theme.surfaceBorder}` }}
+            >
+              <span>
+                <span className="block font-semibold text-sm">セット終了時の演出</span>
+                <span className="block text-xs" style={{ color: theme.surfaceTextMuted }}>
+                  セットに勝った時の演出表示のON/OFF
+                </span>
+              </span>
+              <span
+                className="w-11 h-6 rounded-full relative transition-colors flex-shrink-0"
+                style={{ background: effectsEnabled ? theme.accentMe : theme.surfaceBorder }}
+              >
+                <span
+                  className="absolute top-0.5 w-5 h-5 rounded-full bg-white transition-all"
+                  style={{ left: effectsEnabled ? '22px' : '2px' }}
+                />
+              </span>
+            </button>
+
             <button
               onClick={() => setOpen(false)}
               className="w-full py-2.5 rounded-xl text-sm font-semibold"
